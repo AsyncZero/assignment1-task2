@@ -17,6 +17,14 @@
   },
   "homepage": "https://github.com/AsyncZero/assignment1-task2#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "formidable": "^1.2.2",
+    "mongodb": "^3.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.6.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0"
   }
 }
