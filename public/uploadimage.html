@@ -44,16 +44,19 @@
       </div>
     </nav>
     <div class="row">
-      <h3>Images</h3>
-      <div class="row" id="images"></div>
+      <div class="input-field col s6">
+        <input id="imageBox" type="text" class="validate" />
+        <label class="active" for="imageBox">Image Path</label>
+      </div>
     </div>
-    <div class="fixed-action-btn">
-      <a
-        href="uploadimage.html"
-        class="btn-floating btn-large red waves-effect waves-light red"
-      >
-        <i class="large material-icons">add</i>
-      </a>
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="messageBox" type="text" class="validate" />
+        <label class="active" for="messageBox">Description</label>
+      </div>
+    </div>
+    <div>
+      <a id="btnImage" class="waves-effect waves-light btn">post</a>
     </div>
   </body>
 </html>
