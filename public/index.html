@@ -15,6 +15,8 @@
     />
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
@@ -24,36 +26,45 @@
   <body>
     <nav>
       <div class="nav-wrapper">
-        <a href="index.html" class="brand-logo"
+        <a href="index.html" class="brand-logo center"
           ><i class="material-icons">cloud</i>Instagram</a
         >
-        <ul class="right hide-on-med-and-down">
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li>
-            <a href="sass.html"><i class="material-icons">search</i></a>
-          </li>
-          <li>
-            <a href="badges.html"><i class="material-icons">view_module</i></a>
-          </li>
-          <li>
-            <a href="collapsible.html"><i class="material-icons">refresh</i></a>
-          </li>
-          <li>
-            <a href="mobile.html"><i class="material-icons">more_vert</i></a>
+            <a href="https://github.com/AsyncZero/assignment1-task2">GitHub</a>
           </li>
         </ul>
       </div>
     </nav>
     <div class="row">
-      <h3>Images</h3>
+      <h3>Image Feed</h3>
       <div class="row" id="images"></div>
     </div>
     <div class="fixed-action-btn">
-      <a
-        href="uploadimage.html"
-        class="btn-floating btn-large red waves-effect waves-light red"
-      >
+      <a href="#modal1" class="btn-floating btn-large modal-trigger">
         <i class="large material-icons">add</i>
       </a>
     </div>
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="js/materialize.min.js"></script>
   </body>
 </html>
+
+<!-- Modal Structure -->
+<div id="modal1" class="modal">
+  <div class="modal-content">
+    <h4>Upload Image</h4>
+    <input id="fileUpload" type="file" multiple size="50" type="file" />
+    <div class="row">
+      <div class="input-field col s6">
+        <input id="messageBox" type="text" class="validate" />
+        <label class="active" for="messageBox">Description</label>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a id="post" href="#!" class="modal-close waves-effect waves-green btn-flat"
+      >Upload</a
+    >
+  </div>
+</div>

@@ -1,6 +1,6 @@
 const Express = require("express");
 const { MongoClient } = require("mongodb");
-const formidable = require("formidable");
+const bodyParser = require("body-parser");
 
 // Mongo Database Mangement
 const uri =
@@ -13,30 +13,28 @@ const app = new Express();
 // Serve static page
 app.use(Express.static("public"));
 
+// Use Body Parse
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(
+  bodyParser.urlencoded({
+    limit: "50mb",
+    extended: true,
+    parameterLimit: 50000,
+  })
+);
+
 // Endpoint to Insert Image into database
-app.get("/imageinsert", function (req, res) {
-  let image = req.query.message;
-  insertImage(image);
+app.post("/imageinsert", function (req, res) {
+  const image = req.body.image;
+  const message = req.body.message;
+  // console.log(image, message);
+  insertImage(image, message);
   res.send("Image Inserted");
 });
 
 // Endpoint to retrieve images from database
-app.get("/images", function (req, res) {
+app.get("/imageretrieve", function (req, res) {
   let images = retrieveImages(res);
-});
-
-// Endpoint to upload image to server
-app.get("/imageupload", function (req, res) {
-  let form = new formidable.IncomingForm();
-  form.parse(req, function (err, fields, files) {
-    let oldpath = files.filetoupload.path;
-    let newpath = `C:/Users/Your Name/${files.filetoupload.name}`;
-    fs.rename(oldpath, newpath, function (err) {
-      if (err) throw err;
-      res.write("File uploaded and moved!");
-      res.end();
-    });
-  });
 });
 
 let imageCollection;
@@ -52,31 +50,13 @@ const openConnection = (db) => {
 openConnection();
 
 const insertImage = (image, message) => {
-  imageCollection.insert({ image: image, message: message });
+  imageCollection.insertOne({ image: image, message: message });
 };
-
-/*
-const retrieveImagesOLD = (res) => {
-  var dbo = db.db("instagram");
-  dbo
-    .collection("images")
-    .find({})
-    .toArray(function (err, result) {
-      if (err) throw err;
-      console.log(result);
-    });
-  let images = imageCollection.find().toArray(function (err, result) {
-    if (err) throw err;
-    res.send(result);
-    // console.log(result);
-  });
-};
-*/
 
 const retrieveImages = (res) => {
   MongoClient.connect(uri, function (err, db) {
     if (err) throw err;
-    var dbo = db.db("instagram");
+    const dbo = db.db("instagram");
     dbo
       .collection("images")
       .find({})
