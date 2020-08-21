@@ -1,5 +1,7 @@
+// Requirements Declarations
 const Express = require("express");
 const { MongoClient } = require("mongodb");
+const { ObjectID } = require("mongodb");
 const bodyParser = require("body-parser");
 
 // Mongo Database Mangement
@@ -37,8 +39,17 @@ app.get("/imageretrieve", function (req, res) {
   let images = retrieveImages(res);
 });
 
+// Endpoint to add comment to image
+app.post("/imagecomment", (req, res) => {
+  console.log("Comment: ", req.body.comment);
+  let comment = req.body.comment;
+  let id = req.body.postId;
+  commentImage(id, comment, res);
+});
+
 let imageCollection;
 
+// Set connection to Instagram Database and Images Collection
 const openConnection = (db) => {
   client.connect((err) => {
     if (err) throw err;
@@ -49,10 +60,18 @@ const openConnection = (db) => {
 // Open database connection
 openConnection();
 
+// Insert an Image into database
 const insertImage = (image, message) => {
-  imageCollection.insertOne({ image: image, message: message });
+  // Insert blank comments
+  const comments = [];
+  imageCollection.insertOne({
+    image: image,
+    message: message,
+    comments: comments,
+  });
 };
 
+// Retrieve images objects from database
 const retrieveImages = (res) => {
   MongoClient.connect(uri, function (err, db) {
     if (err) throw err;
@@ -67,6 +86,25 @@ const retrieveImages = (res) => {
   });
 };
 
+// Update Images with Comments
+const commentImage = (id, comment, res) => {
+  // Set id and comment from POST Data to database object update
+  imageCollection.updateOne(
+    { _id: ObjectID(id) },
+    { $addToSet: { comments: comment } },
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send({ result: "Failed Update" });
+      } else {
+        console.log("Comment added");
+        res.send({ result: 200 });
+      }
+    }
+  );
+};
+
+// Start Server
 app.listen(3000, () => {
   console.log("Server started on port 3000");
 });
